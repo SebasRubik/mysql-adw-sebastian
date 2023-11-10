@@ -1,6 +1,6 @@
 use adw;
 
-/*INSERT INTO adventureWorksDW.DimProducto(
+INSERT INTO adventureWorksDW.DimProducto(
     ProductID,
     SubCategoria,
     Categoria
@@ -27,7 +27,7 @@ INSERT INTO adventureWorksDW.DimCliente(
 SELECT sc.CustomerID,ss.name, sst.name 
 FROM Sales_Customer sc
 INNER JOIN Sales_SalesTerritory sst on sst.TerritoryID = sc.TerritoryID
-INNER JOIN Sales_Store ss on sc.StoreID = ss.BusinessEntityID;*/
+INNER JOIN Sales_Store ss on sc.StoreID = ss.BusinessEntityID;
 
 
 
