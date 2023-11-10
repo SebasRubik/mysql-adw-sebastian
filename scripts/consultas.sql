@@ -1,6 +1,5 @@
 use adw;
 
-
 -- Ventas x Ubicacion
 SELECT 
     S.SalesOrderID, 

@@ -7,7 +7,7 @@ INSERT INTO adventureWorksDW.DimProducto(
 )
 SELECT ProductID, ppsc.name AS SubCatName , ppc.name AS CatName
 FROM Production_Product p
-INNER JOIN Production_ProductSubcategory ppsc ON p.ProductID = ppsc.ProductCategoryID
+INNER JOIN Production_ProductSubcategory ppsc ON p.ProductSubcategoryID = ppsc.ProductSubcategoryID
 INNER JOIN Production_ProductCategory ppc on ppsc.ProductCategoryID = ppc.ProductCategoryID;
 
 
@@ -30,10 +30,22 @@ INNER JOIN Sales_SalesTerritory sst on sst.TerritoryID = sc.TerritoryID
 INNER JOIN Sales_Store ss on sc.StoreID = ss.BusinessEntityID;
 
 
+INSERT INTO adventureWorksDW.DimFecha (
+    OrderFecha,
+    Mes,
+    Anio
+)
+SELECT 
+    DISTINCT DATE(OrderDate) as Fecha,
+    EXTRACT(MONTH FROM OrderDate) AS Mes,
+    EXTRACT(YEAR FROM OrderDate) AS Ano
+FROM adw.Sales_SalesOrderHeader;
+
 
 
 
 SELECT * FROM adventureWorksDW.DimProducto;
 SELECT KEY_TIENDA, ID_TIENDA, NOMBRE FROM adventureWorksDW.DimTienda limit 10;
 SELECT * FROM adventureWorksDW.DimCliente limit 10;
+SELECT * FROM adventureWorksDW.DimFecha LIMIT 10;
 

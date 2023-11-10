@@ -1,4 +1,4 @@
-/*CREATE DATABASE adventureWorksDW;*/
+CREATE DATABASE adventureWorksDW;
 USE adventureWorksDW;
 
 -- Tabla de Dimensiones - Producto
@@ -35,9 +35,9 @@ CREATE TABLE DimCliente (
 -- Tabla de Dimensiones - Fecha
 CREATE TABLE DimFecha (
     KEY_Fecha INT AUTO_INCREMENT PRIMARY KEY,
-    OrdeFecha TIMESTAMP,
-    Mes INT,
-    Anio INT
+    OrderFecha DATE,
+    Mes DATE,
+    Anio DATE
 );
 
 -- Tabla de Hechos - Ventas
