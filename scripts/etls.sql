@@ -42,10 +42,51 @@ SELECT
 FROM adw.Sales_SalesOrderHeader;
 
 
+INSERT INTO adventureWorksDW.FactVentas(
+    FK_Producto,
+    FK_Fecha,
+    FK_Cliente,
+    FK_Tienda,
+    Unidades,
+    Ingresos,
+    Ganancia
+)
+SELECT 
+    dwdimProducto.KEY_Producto,
+    dwdimFecha.KEY_Fecha,
+    dwdimcliente.KEY_Cliente, 
+    dwdimTienda.KEY_TIENDA,
+    ssod.OrderQty,
+    SUM(ssod.LineTotal) AS Ingresos,
+    SUM(ssod.UnitPrice * ssod.OrderQty) - SUM(pp.StandardCost * ssod.OrderQty) AS Ganancia
+FROM 
+    Sales_SalesOrderHeader ssoh
+INNER JOIN 
+    Sales_SalesOrderDetail ssod ON ssod.SalesOrderID = ssoh.SalesOrderID
+INNER JOIN 
+    Sales_Customer sc ON sc.CustomerID = ssoh.CustomerID
+INNER JOIN 
+    Sales_Store ss ON sc.StoreID = ss.BusinessEntityID
+INNER JOIN 
+    Production_Product pp ON ssod.ProductID = pp.ProductID
+INNER JOIN 
+    adventureWorksDW.DimFecha dwdimFecha ON dwdimFecha.OrderFecha = DATE(ssoh.OrderDate)
+INNER JOIN 
+    adventureWorksDW.DimCliente dwdimcliente ON ssoh.CustomerID = dwdimcliente.ID_Cliente
+INNER JOIN 
+    adventureWorksDW.DimProducto dwdimProducto ON ssod.ProductID = dwdimProducto.ProductID
+INNER JOIN 
+    adventureWorksDW.DimTienda dwdimTienda ON ss.BusinessEntityID = dwdimTienda.ID_TIENDA
+GROUP BY 
+    ssoh.SalesOrderID, ssod.ProductID, ssoh.SubTotal, ssod.OrderQty, dwdimFecha.KEY_Fecha, 
+    ssoh.CustomerID, dwdimcliente.KEY_Cliente, dwdimProducto.KEY_Producto, dwdimTienda.KEY_TIENDA
+LIMIT 150000;
 
 
-SELECT * FROM adventureWorksDW.DimProducto;
-SELECT KEY_TIENDA, ID_TIENDA, NOMBRE FROM adventureWorksDW.DimTienda limit 10;
-SELECT * FROM adventureWorksDW.DimCliente limit 10;
-SELECT * FROM adventureWorksDW.DimFecha LIMIT 10;
+SELECT * FROM adventureWorksDW.DimProducto LIMIT 100;
+SELECT KEY_TIENDA, ID_TIENDA, NOMBRE FROM adventureWorksDW.DimTienda limit 100;
+SELECT * FROM adventureWorksDW.DimCliente limit 100;
+SELECT * FROM adventureWorksDW.DimFecha LIMIT 100;
+SELECT * FROM adventureWorksDW.FactVentas LIMIT 100;
 
+SELECT ID_Ventas, FK_Producto, DISTINCT(FK_Fecha), FK_Cliente, FK_Cliente, Unidades, Ingresos, Ganancia FROM adventureWorksDW.FactVentas LIMIT 100;

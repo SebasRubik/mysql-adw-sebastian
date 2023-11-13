@@ -36,8 +36,8 @@ CREATE TABLE DimCliente (
 CREATE TABLE DimFecha (
     KEY_Fecha INT AUTO_INCREMENT PRIMARY KEY,
     OrderFecha DATE,
-    Mes DATE,
-    Anio DATE
+    Mes INT,
+    Anio INT
 );
 
 -- Tabla de Hechos - Ventas
