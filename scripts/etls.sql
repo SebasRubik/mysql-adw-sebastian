@@ -79,8 +79,7 @@ INNER JOIN
     adventureWorksDW.DimTienda dwdimTienda ON ss.BusinessEntityID = dwdimTienda.ID_TIENDA
 GROUP BY 
     ssoh.SalesOrderID, ssod.ProductID, ssoh.SubTotal, ssod.OrderQty, dwdimFecha.KEY_Fecha, 
-    ssoh.CustomerID, dwdimcliente.KEY_Cliente, dwdimProducto.KEY_Producto, dwdimTienda.KEY_TIENDA
-LIMIT 150000;
+    ssoh.CustomerID, dwdimcliente.KEY_Cliente, dwdimProducto.KEY_Producto, dwdimTienda.KEY_TIENDA;
 
 
 SELECT * FROM adventureWorksDW.DimProducto LIMIT 100;
